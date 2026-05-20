@@ -14,8 +14,7 @@ sections = {
         "초당충격량": [22.64, 24.39, 27.82],
         "피로도점수": [88.8, 88.2, 100.0],
     },
-    "학생회관 → 도서관": {
-        "경로": ["엘리베이터", "언덕", "계단"],
+    "학생회관 → 도서관": {"경로": ["엘리베이터", "언덕", "계단"],
         "최대Peak": [32.98, 42.55, 64.58],
         "95%Peak": [18.45, 21.45, 21.90],
         "평균Peak": [9.83, 10.73, 11.18],
@@ -71,7 +70,8 @@ for tab_idx, (section_name, sdata) in enumerate(sections.items()):
                 fig_peak.add_trace(go.Bar(name=name, x=df["경로"], y=df[metric], text=df[metric].round(1), textposition="outside"))
             fig_peak.update_layout(barmode="group", height=400, yaxis_title="m/s²", template="plotly_white",
                                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-            st.plotly_chart(fig_peak, use_container_width=True)
+            # [수정] 고유 key 추가로 중복 ID 에러 방지
+            st.plotly_chart(fig_peak, use_container_width=True, key=f"peak_chart_{tab_idx}")
 
         with col2:
             st.markdown("### 📊 RMS & 초당 충격량 비교")
@@ -80,7 +80,8 @@ for tab_idx, (section_name, sdata) in enumerate(sections.items()):
             fig_rms.add_trace(go.Bar(name="초당 충격량", x=df["경로"], y=df["초당충격량"], text=df["초당충격량"].round(1), textposition="outside", marker_color="#FF7043"))
             fig_rms.update_layout(barmode="group", height=400, yaxis_title="수치", template="plotly_white",
                                   legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
-            st.plotly_chart(fig_rms, use_container_width=True)
+            # [수정] 고유 key 추가로 중복 ID 에러 방지
+            st.plotly_chart(fig_rms, use_container_width=True, key=f"rms_chart_{tab_idx}")
 
         st.markdown("### 🎯 무릎 피로도 게이지")
         gauge_cols = st.columns(3)
@@ -94,7 +95,8 @@ for tab_idx, (section_name, sdata) in enumerate(sections.items()):
                                      {"range": [75, 90], "color": "#FFE0B2"}, {"range": [90, 100], "color": "#FFCDD2"}],
                            "threshold": {"line": {"color": "red", "width": 4}, "thickness": 0.75, "value": 90}}))
                 fig_g.update_layout(height=250, margin=dict(t=40, b=0, l=30, r=30))
-                st.plotly_chart(fig_g, use_container_width=True)
+                # [수정] 고유 key 추가로 중복 ID 에러 방지
+                st.plotly_chart(fig_g, use_container_width=True, key=f"gauge_chart_{tab_idx}_{i}")
 
         st.markdown("### 📋 측정 데이터")
         display_df = df[["경로", "최대Peak", "95%Peak", "평균Peak", "RMS", "초당충격량", "피로도점수", "피로등급"]].copy()
