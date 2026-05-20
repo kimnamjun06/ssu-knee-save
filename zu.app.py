@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import plotly.graph_objects as go
-import plotly.express as px
 
 st.set_page_config(page_title="🦵 숭실대 무릎 피로도 가이드", layout="wide", page_icon="🦵")
 
